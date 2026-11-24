@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  --cu-purple: #6b2896;
+  --cu-purple-dark: #521c75;
+  --cu-purple-light: #f3ebf8;
+  --cu-green: #00d084;
+  --cu-green-neon: #76e05b;
+  --cu-green-light: #e6faf2;
+  --bg-main: #f6f7fb;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background-color: #eceef5;
+  font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  color: #1e1e24;
+}
+
+/* 스크롤바 숨기기 유틸 */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

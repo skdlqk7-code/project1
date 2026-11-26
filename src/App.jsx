@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MapPin,
   Coins,
@@ -16,6 +16,8 @@ import {
   KeyRound,
   LogIn,
   LogOut,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 import {
@@ -39,7 +41,28 @@ import CatchphraseModal from './components/CatchphraseModal';
 import AuthModal from './components/AuthModal';
 import AvatarRenderer from './components/AvatarRenderer';
 
+function ThemeToggle({ theme, onToggle }) {
+  const isDark = theme === 'dark';
+  return (
+    <button type="button" onClick={onToggle}
+      aria-label={isDark ? '화이트 모드로 변경' : '다크 모드로 변경'}
+      title={isDark ? '화이트 모드' : '다크 모드'}
+      className="theme-toggle fixed right-4 top-4 z-[60] flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-700 shadow-lg transition hover:scale-105">
+      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </button>
+  );
+}
+
 export default function App() {
+  const [theme, setTheme] = useState(() => {
+    try { return localStorage.getItem('project1-theme') === 'dark' ? 'dark' : 'light'; }
+    catch { return 'light'; }
+  });
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem('project1-theme', theme); } catch { /* Storage may be unavailable. */ }
+  }, [theme]);
+  const toggleTheme = () => setTheme((current) => current === 'dark' ? 'light' : 'dark');
   // 1. 온보딩 상태 (사용자 지정 행정구역: 인천광역시 연수구 기본)
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [obStep, setObStep] = useState(1);
@@ -141,6 +164,8 @@ export default function App() {
   // ---------------- 1. 온보딩 화면 ----------------
   if (showOnboarding) {
     return (
+      <>
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
       <Onboarding
         obStep={obStep}
         setObStep={setObStep}
@@ -158,12 +183,15 @@ export default function App() {
           setTimeout(() => setShowCatchphraseModal(true), 400);
         }}
       />
+      </>
     );
   }
 
   // ---------------- 2. 라이브 룸 (바람의나라 스타일 이동 + 2D 픽셀 배경) ----------------
   if (activeTab === 'live') {
     return (
+      <>
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
       <LiveRoom
         activeRoom={activeRoom}
         myAvatar={myAvatar}
@@ -172,6 +200,7 @@ export default function App() {
         setCash={setCash}
         onExit={() => setActiveTab('home')}
       />
+      </>
     );
   }
 
@@ -228,6 +257,16 @@ export default function App() {
             </button>
 
             {/* 우측 상단 로그인 / 회원가입 버튼 */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? '화이트 모드로 변경' : '다크 모드로 변경'}
+              title={theme === 'dark' ? '화이트 모드' : '다크 모드'}
+              className="theme-toggle flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 transition-colors hover:bg-stone-100"
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
             {currentUser ? (
               <div className="flex items-center gap-1">
                 <button

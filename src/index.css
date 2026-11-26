@@ -21,6 +21,73 @@ html, body, #root {
   color: #1e1e24;
 }
 
+html[data-theme="dark"],
+html[data-theme="dark"] body,
+html[data-theme="dark"] #root {
+  background-color: #111018;
+  color: #f4f0f7;
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] [class~="bg-[#eceef5]"],
+html[data-theme="dark"] [class~="bg-[#F6F7FB]"],
+html[data-theme="dark"] [class~="bg-white"],
+html[data-theme="dark"] [class~="bg-white/95"] {
+  background-color: #1c1923;
+}
+
+html[data-theme="dark"] [class~="bg-stone-50"],
+html[data-theme="dark"] [class~="bg-stone-100"],
+html[data-theme="dark"] [class~="bg-stone-200"] {
+  background-color: #292531;
+}
+
+html[data-theme="dark"] [class~="bg-purple-50"],
+html[data-theme="dark"] [class~="bg-purple-100"],
+html[data-theme="dark"] [class~="bg-[#f3ebf8]"] {
+  background-color: #30243a;
+}
+
+html[data-theme="dark"] [class~="text-stone-900"],
+html[data-theme="dark"] [class~="text-stone-800"],
+html[data-theme="dark"] [class~="text-stone-700"],
+html[data-theme="dark"] [class~="text-stone-600"],
+html[data-theme="dark"] [class~="text-gray-900"],
+html[data-theme="dark"] [class~="text-gray-800"] {
+  color: #f4f0f7;
+}
+
+html[data-theme="dark"] [class~="text-stone-500"],
+html[data-theme="dark"] [class~="text-stone-400"],
+html[data-theme="dark"] [class~="text-gray-500"],
+html[data-theme="dark"] [class~="text-gray-400"] {
+  color: #aaa2b3;
+}
+
+html[data-theme="dark"] [class*="border-stone-"],
+html[data-theme="dark"] [class*="border-purple-"] {
+  border-color: #393341;
+}
+
+html[data-theme="dark"] .theme-toggle {
+  background-color: #292531;
+  border-color: #494253;
+  color: #f4f0f7;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background-color: #292531;
+  color: #f4f0f7;
+  border-color: #494253;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: #aaa2b3;
+}
+
 /* 스크롤바 숨기기 유틸 */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

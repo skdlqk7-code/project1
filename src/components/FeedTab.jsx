@@ -37,26 +37,14 @@ export default function FeedTab({
   const fileInputRef = useRef(null);
 
   // 로컬 이미지 선택
-  const readImageFile = (file) => {
-    if (!file?.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = (event) => setNewImage(event.target.result);
-    reader.readAsDataURL(file);
-  };
-
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
-    readImageFile(file);
-  };
-
-  const handleImagePaste = (e) => {
-    const imageItem = Array.from(e.clipboardData?.items || []).find(
-      (item) => item.kind === 'file' && item.type.startsWith('image/')
-    );
-    const file = imageItem?.getAsFile();
     if (!file) return;
-    e.preventDefault();
-    readImageFile(file);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setNewImage(event.target.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   // 피드 등록
@@ -302,7 +290,6 @@ export default function FeedTab({
         <div className="fixed inset-0 z-60 bg-black/50 backdrop-blur-xs flex items-end justify-center">
           <form
             onSubmit={handleCreateFeed}
-            onPaste={handleImagePaste}
             className="w-full max-w-[430px] bg-white rounded-t-3xl p-5 space-y-4 shadow-2xl animate-in slide-in-from-bottom max-h-[90vh] overflow-y-auto"
           >
             <div className="flex items-center justify-between">
@@ -322,7 +309,6 @@ export default function FeedTab({
                 피드 사진 (갤러리 또는 감성 테마)
               </label>
 
-              <p className="mb-1.5 text-[10px] text-stone-400">이미지를 복사한 뒤 이 창에서 Ctrl+V로 붙여넣을 수 있어요.</p>
               {newImage ? (
                 <div className="relative rounded-2xl overflow-hidden border border-stone-200 aspect-video bg-stone-100">
                   <img src={newImage} alt="미리보기" className="w-full h-full object-cover" />

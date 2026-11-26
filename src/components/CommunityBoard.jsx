@@ -41,26 +41,15 @@ export default function CommunityBoard({
   const fileInputRef = useRef(null);
 
   // 로컬 파일 이미지 선택 처리
-  const readImageFile = (file) => {
-    if (!file?.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = (event) => setAttachedImage(event.target.result);
-    reader.readAsDataURL(file);
-  };
-
   const handleImageFileChange = (e) => {
     const file = e.target.files?.[0];
-    readImageFile(file);
-  };
-
-  const handleImagePaste = (e) => {
-    const imageItem = Array.from(e.clipboardData?.items || []).find(
-      (item) => item.kind === 'file' && item.type.startsWith('image/')
-    );
-    const file = imageItem?.getAsFile();
     if (!file) return;
-    e.preventDefault();
-    readImageFile(file);
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setAttachedImage(event.target.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   // 댓글 상태
@@ -430,7 +419,6 @@ export default function CommunityBoard({
         <div className="fixed inset-0 z-60 bg-black/50 backdrop-blur-xs flex items-end justify-center">
           <form
             onSubmit={handleCreatePost}
-            onPaste={handleImagePaste}
             className="w-full max-w-[430px] bg-white rounded-t-3xl p-5 space-y-3.5 shadow-2xl animate-in slide-in-from-bottom max-h-[90vh] overflow-y-auto"
           >
             <div className="flex items-center justify-between">
@@ -497,7 +485,6 @@ export default function CommunityBoard({
                 <Camera className="w-3.5 h-3.5 text-[#FF6B57]" /> 사진 첨부 (내 갤러리 또는 추천 사진)
               </label>
 
-              <p className="mb-1.5 text-[10px] text-stone-400">이미지를 복사한 뒤 이 창에서 Ctrl+V로 붙여넣을 수 있어요.</p>
               {attachedImage ? (
                 <div className="relative rounded-2xl overflow-hidden border border-stone-200 h-36 bg-stone-100">
                   <img src={attachedImage} alt="첨부 미리보기" className="w-full h-full object-cover" />
